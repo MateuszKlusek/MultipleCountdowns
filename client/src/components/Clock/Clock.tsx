@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useContext, memo, useLayoutEffect } from '
 
 // packages
 import gsap from 'gsap'
+import { Howl, Howler } from "howler"
 
 // helpers
 import { transformFromMiliseconds } from '../../helpers/timeManipulation'
@@ -34,6 +35,19 @@ const Clock = (props) => {
   // state for clicking and dragging single clock
   const [clicked, setClicked] = useState<boolean>(false)
   const [xCoordinateAtStart, setXCoordinateAtStart] = useState<number>(0)
+
+
+  const playAlert = () => {
+    var sound;
+    return sound = new Howl({
+      src: ['./../../assets/clock-sound.mp3'],
+      onplayerror: function () {
+        sound.once('unlock', function () {
+          sound.play();
+        });
+      }
+    });
+  }
 
   // handle dragable clock RIGHT to start and LEFT to pause click
   useEffect(() => {
@@ -105,17 +119,18 @@ const Clock = (props) => {
   const workerRef = useRef(null)
   useEffect(() => {
     function showNotification(msg) {
+      console.log("notification");
       const notification = new Notification('Countdowns', {
         body: msg,
       })
-      const audio = new Audio('./../../assets/clock-sound.mp3')
+      var sound = playAlert();
       if (JSON.parse(window.localStorage.getItem("globalAlarmBlock")) === false) {
         window.localStorage.setItem("globalAlarmBlock", JSON.stringify(true))
-        audio.play()
+        sound.play();
       }
       setTimeout(() => {
         notification.close()
-        audio.pause()
+        sound.pause()
         window.localStorage.setItem("globalAlarmBlock", JSON.stringify(false))
       }, 4000)
       window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)
@@ -156,10 +171,10 @@ const Clock = (props) => {
         // change for the notification only for the countdown when the websites was active, not from localStore
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
           window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)
-          const audio = new Audio('./../../assets/clock-sound.mp3')
-          audio.play()
+          var sound = playAlert();
+          sound.play();
           setTimeout(() => {
-            audio.pause()
+            sound.pause()
             window.localStorage.setItem("globalAlarmBlock", JSON.stringify(false))
           }, 4000)
         }
@@ -169,6 +184,8 @@ const Clock = (props) => {
           }
           else {
             window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)
+            var sound = playAlert();
+            sound.play();
           }
         }
         workerRef.current.terminate()

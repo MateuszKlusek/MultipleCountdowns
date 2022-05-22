@@ -137,3 +137,6 @@ width: 20px;
 height: 100%;
 right: 0;
 `
+
+export const AudioShadow = styled.audio`
+`
