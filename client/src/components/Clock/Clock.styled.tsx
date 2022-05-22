@@ -5,7 +5,7 @@ export const SingleClockContainer = styled.div`
   max-width: 80%;
   height: auto;
   padding: 5px;
-  border-bottom: 2px solid #dadce0;
+  border-bottom: 2px solid ${props => props.showNotificationHelper ? "#4b474754" : "#dadce0"};
   background: ${(props) => props.done && '#c0a5ce'};
   opacity: ${props => props.playing ? "1" : "0.5"};
   padding-top: 20px;
@@ -23,7 +23,7 @@ export const SingleClockContainer = styled.div`
     min-width: 80%;
     grid-template-columns: auto 100px;
     padding-top: 10px;
-  padding-bottom: 10px;
+    padding-bottom: 10px;
   }
 
   @media (max-width: 300px) {
@@ -43,7 +43,7 @@ export const ColorIdentifier = styled.div`
   height: 100%;
   width: 5px;
   position: absolute;
-  background: ${props => `${props.color}`};
+  background: ${props => props.showNotificationHelper ? "#373434a1" : props.color};
 `
 
 
@@ -55,7 +55,7 @@ export const Message = styled.div`
   font-size: 18px;
   grid-column: 1/3;
   grid-row: 2/3;
-  color: black;
+  color:${props => props.showNotificationHelper ? '#2a2525' : "auto"};
   overflow-wrap: break-word;
   word-break: break-word;
   line-height: 1.2;
@@ -76,6 +76,8 @@ export const Message = styled.div`
 `
 
 export const IconContainer = styled.div`
+
+opacity:${props => props.showNotificationHelper ? '0.4' : "1"};
   user-select: none;
   grid-column: 2/3;
   grid-row: 1/2;
@@ -124,7 +126,7 @@ position: absolute;
 bottom:0;
 width: ${props => props.width};
 height: 5px;
-background: ${props => props.color};
+background: ${props => props.showNotificationHelper ? "#373434a1" : props.color};
 transition: width .4s linear;
 `
 

@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect, useRef } from 'react'
-import { TimersContext } from '../../context/TimersContext'
 import { useDetectClickOutside } from 'react-detect-click-outside'
 
 import * as S from './TimePicker.styled'
@@ -9,17 +8,24 @@ import { generateString } from '../../helpers/stringGenerator'
 import { MAX_CLOCKS, LOCAL_STORAGE_PREFIX } from '../../helpers/constants'
 import Warning from '../Warning/Warning'
 
+// context
+import { TimersContext } from '../../context/TimersContext'
+import { NotificationContext } from '../../context/NotificationContext'
+
 // helpers
 import { mergeRefs } from "./../../helpers/refs.js"
 
 const TimePicker = () => {
+  // states
   const { timers, setTimers } = useContext(TimersContext)
-
+  const { showNotificationHelper, setShowNotificationHelper } = useContext(NotificationContext)
   const [warning, setWarning] = useState([false, ''])
-
   const [isTimerEditable, setIsTimerEditable] = useState(false)
 
+
+  // refs
   const WarningRef = useRef(false)
+
   useEffect(() => {
     var temp = timer
     temp = retransformString(temp)
@@ -228,6 +234,7 @@ const TimePicker = () => {
             onClick={() => {
               setIsTimerEditable((prev) => !prev)
             }}
+            showNotificationHelper={showNotificationHelper}
           >
             <S.Number> {handleSecondsForTransformed(retransformString(timer), 6)}</S.Number>
             <S.NumberWithoutPadding>
@@ -249,9 +256,9 @@ const TimePicker = () => {
       </S.TimerContainer>
       <Warning show={warning[0]} msg={warning[1]} />
       <S.NameInputContainer>
-        <S.NameInput ref={NameInputRef} onChange={(e) => setTitle(e.target.value)} />
+        <S.NameInput ref={NameInputRef} showNotificationHelper={showNotificationHelper} onChange={(e) => setTitle(e.target.value)} />
       </S.NameInputContainer>
-      <S.ButtonContainer>
+      <S.ButtonContainer showNotificationHelper={showNotificationHelper}>
         <S.Button
           ref={StartButtonRef}
           onClick={() => {

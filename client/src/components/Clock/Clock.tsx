@@ -13,6 +13,7 @@ import * as S from './Clock.styled'
 
 // contexts
 import { TimersContext } from '../../context/TimersContext'
+import { NotificationContext } from '../../context/NotificationContext'
 
 // assets
 import Start from './../../assets/play-button.png'
@@ -28,6 +29,7 @@ const Clock = (props) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(timerData.playing)
   const [reset, setReset] = useState<boolean>(false);
   const { timers, setTimers } = useContext(TimersContext)
+  const { showNotificationHelper } = useContext(NotificationContext)
 
   // state for clicking and dragging single clock
   const [clicked, setClicked] = useState<boolean>(false)
@@ -245,11 +247,12 @@ const Clock = (props) => {
 
   return (
     <>
-      <S.SingleClockContainer done={timerData.timeLeft <= 0} playing={isPlaying} ref={SingleClockContainerRef}>
-        <S.ColorIdentifier color={timerData.color} />
+      <S.SingleClockContainer done={timerData.timeLeft <= 0} playing={isPlaying} ref={SingleClockContainerRef} showNotificationHelper={showNotificationHelper}>
+        <S.ColorIdentifier color={timerData.color} showNotificationHelper={showNotificationHelper} />
         <Timer time={transformFromMiliseconds(timerData.timeLeft)} />
-        <S.IconContainer>
+        <S.IconContainer showNotificationHelper={showNotificationHelper} >
           <S.ActionButton
+
             src={isPlaying ? Pause : Start}
             onClick={() => {
               // we only want to be able to stop when the times is bigger than 0
@@ -274,8 +277,8 @@ const Clock = (props) => {
             alt={'delete'}
           ></S.ActionButton>
         </S.IconContainer>
-        <S.Message>{timerData.msg}</S.Message>
-        <S.ProgressBar color={timerData.color} ref={ProgressBarRef} width={() => {
+        <S.Message showNotificationHelper={showNotificationHelper}>{timerData.msg}</S.Message>
+        <S.ProgressBar color={timerData.color} ref={ProgressBarRef} showNotificationHelper={showNotificationHelper} width={() => {
           try {
             if ((1 - timerData.timeLeft / timerData.timeTotal) > 1) {
               return `${SingleClockContainerRef.current.offsetWidth}px`

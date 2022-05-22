@@ -1,8 +1,17 @@
+// react
+import { useContext } from "react";
+
 // styles
 import * as S from "./TimerPlaceholder.styled"
 
+// context
+import { NotificationContext } from "../../context/NotificationContext";
+
 const TimerPlaceholder = () => {
-    return <S.TimerPlaceholderContainer>You currently have no clocks running</S.TimerPlaceholderContainer>;
+    // states
+    const { showNotificationHelper } = useContext(NotificationContext)
+
+    return <S.TimerPlaceholderContainer showNotificationHelper={showNotificationHelper}>You currently have no clocks running</S.TimerPlaceholderContainer>;
 };
 
 export default TimerPlaceholder;

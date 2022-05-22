@@ -10,7 +10,7 @@ export const TimerPlaceholderContainer = styled.div`
     align-items: center;
     height: 200px;
     font-size: 30px;
-    color: #d9cbcb;
+    color: ${props => props.showNotificationHelper ? "#3e3b3b" : "#d9cbcb"};
     opacity: 0.7;
     text-align: center;
 

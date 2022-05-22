@@ -1,6 +1,17 @@
+// react
+import { useContext } from 'react'
+
+// styles
 import * as S from './Top.styled'
+
+//  context
+import { NotificationContext } from '../../context/NotificationContext'
+
 const Top = () => {
-  return <S.TopContainer>Mutliple Countdowns</S.TopContainer>
+  // states
+  const { showNotificationHelper } = useContext(NotificationContext)
+
+  return <S.TopContainer showNotificationHelper={showNotificationHelper}>Mutliple Countdowns</S.TopContainer>
 }
 
 export default Top

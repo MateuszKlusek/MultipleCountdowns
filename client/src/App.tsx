@@ -9,7 +9,7 @@ import TimePicker from './components/TimePicker/TimePicker'
 import Top from './components/Top/Top'
 import TimerPlaceholder from './components/TimerPlaceholder/TimerPlaceholder'
 import NotificationReminder from './components/NotificationReminder/NotificationReminder'
-import NotificationArrow from './components/NotificationArrow/NotificationArrow'
+import NotificationHelper from './components/NotificationHelper/NotificationHelper'
 
 // context
 import { TimersContext } from './context/TimersContext';
@@ -27,7 +27,7 @@ function App() {
   const [timers, setTimers] = useState<Timer[]>([])
   const [showOfflineInformation, setShowOfflineInformation] = useState([false, 0])
   const [showNotificationReminder, setShowNotificationReminder] = useState<boolean>(false)
-  const [showNotificationArrow, setShowNotificationArrow] = useState<boolean>(false)
+  const [showNotificationHelper, setShowNotificationHelper] = useState<boolean>(false)
   // scroll to the top when load/refresh website
   window.scrollTo(0, 0)
   window.onbeforeunload = function () {
@@ -123,32 +123,31 @@ function App() {
   return (
     <PopupContext.Provider value={{ showOfflineInformation, setShowOfflineInformation }}>
       <TimersContext.Provider value={{ timers, setTimers }}>
-        <NotificationContext.Provider value={{ showNotificationReminder, setShowNotificationReminder, showNotificationArrow, setShowNotificationArrow }}>
-          <S.AppContainer ref={AppContainerRef} height={() => {
-            const vh = window.innerHeight * 0.01;
-            console.log(vh * 100)
-            return `${vh * 100}px`
-          }
-          }>
-            <Top />
-            <TimePicker />
-            <S.ClockContainer>
-              {timers.length === 0 && <TimerPlaceholder />}
-              {timers.map((el, idx) => (
-                <Clock
-                  // can't to idx as key, because it doesn't update with state update from inside the clock
-                  key={generateString(4)}
-                  id={el.id}
-                  color={el.color}
-                  data={el}
-                />
-              ))}
-            </S.ClockContainer>
-            {showNotificationReminder && <NotificationReminder />}
-            {showNotificationArrow && <NotificationArrow />}
-            <GithubLink url={'https://github.com/mateuszklusek/MultipleCountdowns'} />
-            <WebsiteInfo />
-          </S.AppContainer>
+        <NotificationContext.Provider value={{ showNotificationReminder, setShowNotificationReminder, showNotificationHelper, setShowNotificationHelper }}>
+
+          <S.MainContainer>
+            <S.AppContainer ref={AppContainerRef} showNotificationHelper={showNotificationHelper}>
+              <Top />
+              <TimePicker />
+              <S.ClockContainer>
+                {timers.length === 0 && <TimerPlaceholder />}
+                {timers.map((el, idx) => (
+                  <Clock
+                    // can't to idx as key, because it doesn't update with state update from inside the clock
+                    key={generateString(4)}
+                    id={el.id}
+                    color={el.color}
+                    data={el}
+                  />
+                ))}
+              </S.ClockContainer>
+              {showNotificationReminder && <NotificationReminder />}
+              <GithubLink url={'https://github.com/mateuszklusek/MultipleCountdowns'} />
+              <WebsiteInfo />
+            </S.AppContainer>
+            {showNotificationHelper && <NotificationHelper />}
+          </S.MainContainer>
+
         </NotificationContext.Provider>
       </TimersContext.Provider>
     </PopupContext.Provider>

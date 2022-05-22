@@ -1,5 +1,5 @@
+// react
 import { useContext } from "react";
-
 
 // styles
 import * as S from "./NotificationReminder.styled"
@@ -7,22 +7,24 @@ import * as S from "./NotificationReminder.styled"
 // context
 import { NotificationContext } from "../../context/NotificationContext";
 
-
 const NotificationReminder = () => {
+    // states
+    const { setShowNotificationReminder, setShowNotificationHelper } = useContext(NotificationContext)
+
+    // click for desktop makes a NotificationHelper to pop up (modal)
     const handleClick = () => {
         console.log(Notification.permission)
         if (Notification.permission !== "granted") {
-            setShowNotificationArrow(prev => true)
+            setShowNotificationHelper(prev => true)
 
             Notification.requestPermission().then((permission) => {
                 if (permission === 'granted') {
                     setShowNotificationReminder(prev => false)
-                    setShowNotificationArrow(prev => false)
+                    setShowNotificationHelper(prev => false)
                 }
             })
         }
     }
-    const { setShowNotificationReminder, setShowNotificationArrow } = useContext(NotificationContext)
 
     return <S.NotificationReminderContainer onClick={handleClick}>
 

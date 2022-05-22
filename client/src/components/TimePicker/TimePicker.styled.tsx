@@ -44,8 +44,8 @@ export const TimerPlaceholder = styled.div`
   cursor: pointer;
   line-height: 1.58;
   text-align: left;
-  color: #222222;
-  border-bottom: 1px solid #ebebeb;
+  color:${props => props.showNotificationHelper ? '#2a2525' : "auto"};
+  border-bottom: 1px solid ${props => props.showNotificationHelper ? "#514a4a" : "#ebebeb"};
 
   @media (max-width: 768px) {
   }
@@ -96,16 +96,16 @@ export const NameInput = styled.input`
   padding: 10px 25px;
   font-family: monospace;
   font-size: 22px;
-  border: 2px solid #ccc;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
+  border: 2px solid ${props => props.showNotificationHelper ? "#1e323e" : "#ccc"};
   outline: none;
   color: #222222;
   /* without it padding crashed 100% */
   box-sizing: border-box;
+  background: ${props => props.showNotificationHelper ? "#293d49" : "auto"}; 
   &:focus {
     border: 2px solid #4286f499;
     background: #e2f9efc0;
+    transition:  0.5s;
   }
 
   @media (max-width: 768px) {
@@ -113,8 +113,10 @@ export const NameInput = styled.input`
   }
 `
 export const ButtonContainer = styled.div`
+
   margin-top: 10px;
   display: flex;
+  opacity: ${props => props.showNotificationHelper ? "0.2" : "1"};
 `
 
 export const Button = styled.div`
