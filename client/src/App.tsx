@@ -101,11 +101,6 @@ function App() {
 
   // refs
   const AppContainerRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    setTimeout(() => {
-      AppContainerRef.current.click()
-    }, 200)
-  }, [])
 
   // notification api -> is not granted show notification icon (<NotificationReminder />)
   useEffect(() => {

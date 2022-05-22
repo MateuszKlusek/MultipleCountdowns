@@ -295,19 +295,22 @@ const Clock = (props) => {
           ></S.ActionButton>
         </S.IconContainer>
         <S.Message showNotificationHelper={showNotificationHelper}>{timerData.msg}</S.Message>
-        <S.ProgressBar color={timerData.color} ref={ProgressBarRef} showNotificationHelper={showNotificationHelper} width={() => {
-          try {
-            if ((1 - timerData.timeLeft / timerData.timeTotal) > 1) {
-              return `${SingleClockContainerRef.current.offsetWidth}px`
-            } else {
-              return `${(1 - timerData.timeLeft / timerData.timeTotal) * SingleClockContainerRef.current.offsetWidth}px`
-            }
-          }
-          catch (err) {
-            return "0px"
-          }
-        }
-        } />
+        <S.ProgressBar color={timerData.color} ref={ProgressBarRef} showNotificationHelper={showNotificationHelper}
+          style={{
+            width: (() => {
+              try {
+                if ((1 - timerData.timeLeft / timerData.timeTotal) > 1) {
+                  return `${SingleClockContainerRef.current.offsetWidth}px`
+                } else {
+                  return `${(1 - timerData.timeLeft / timerData.timeTotal) * SingleClockContainerRef.current.offsetWidth}px`
+                }
+              }
+              catch (err) {
+                return "0px"
+              }
+            })()
+          }}
+        />
         {!isPlaying && <S.PauseIndicator ref={PauseIndicatorRef} onClick={() => toggleStartStop(props.id, isPlaying)} />}
       </S.SingleClockContainer>
     </>

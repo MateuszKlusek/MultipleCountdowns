@@ -124,7 +124,6 @@ export const ActionButton = styled.img`
 export const ProgressBar = styled.div`
 position: absolute;
 bottom:0;
-width: ${props => props.width};
 height: 5px;
 background: ${props => props.showNotificationHelper ? "#373434a1" : props.color};
 transition: width .4s linear;
