@@ -7,7 +7,6 @@ import GithubLink from './components/GithubLink/GithubLink'
 import WebsiteInfo from './components/WebsiteInfo/WebsiteInfo'
 import TimePicker from './components/TimePicker/TimePicker'
 import Top from './components/Top/Top'
-import OfflineInformation from './components/OfflineInformation/OfflineInformation'
 import TimerPlaceholder from './components/TimerPlaceholder/TimerPlaceholder'
 import NotificationReminder from './components/NotificationReminder/NotificationReminder'
 import NotificationArrow from './components/NotificationArrow/NotificationArrow'
@@ -145,7 +144,6 @@ function App() {
                 />
               ))}
             </S.ClockContainer>
-            {showOfflineInformation[0] && <OfflineInformation time={showOfflineInformation[1]} />}
             {showNotificationReminder && <NotificationReminder />}
             {showNotificationArrow && <NotificationArrow />}
             <GithubLink url={'https://github.com/mateuszklusek/MultipleCountdowns'} />

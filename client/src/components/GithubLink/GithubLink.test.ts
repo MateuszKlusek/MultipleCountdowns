@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 // component
-import GithubLink from "./GithubLink"
+import GithubLink from './GithubLink'
 
-test.todo('add tests');
+test.todo('add tests')

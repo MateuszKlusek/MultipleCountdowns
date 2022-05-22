@@ -1,4 +1,7 @@
+// react
 import { useContext, useEffect, useRef } from "react";
+
+// packages
 import gsap from "gsap"
 
 // styles
@@ -12,8 +15,13 @@ import { NotificationContext } from "../../context/NotificationContext";
 
 
 const NotificationArrow = () => {
+    // states
     const { setShowNotificationArrow } = useContext(NotificationContext)
+
+    // refs
     const NotificationArrowContainerRef = useRef<HTMLDivElement>(null)
+
+    // handling animation for the vertical arrow
     useEffect(() => {
         const tl = gsap.timeline({
             repeat: 5, onComplete: () => {
@@ -21,9 +29,6 @@ const NotificationArrow = () => {
             }
         })
         tl.to(NotificationArrowContainerRef.current, { y: 20, duration: 0.5 })
-
-
-
     }, [])
 
 
