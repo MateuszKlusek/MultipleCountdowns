@@ -24,4 +24,8 @@ export const ClockContainer = styled.div`
   justify-content: center;
   align-items: center;
 `
-export const MainContainer = styled.div``
+export const MainContainer = styled.div`
+ min-height: 100vh;
+width: 100%;
+box-sizing: border-box;
+`

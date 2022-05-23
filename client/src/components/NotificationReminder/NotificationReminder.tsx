@@ -13,7 +13,6 @@ const NotificationReminder = () => {
 
     // click for desktop makes a NotificationHelper to pop up (modal)
     const handleClick = () => {
-        console.log(Notification.permission)
         if (Notification.permission !== "granted") {
             setShowNotificationHelper(prev => true)
 

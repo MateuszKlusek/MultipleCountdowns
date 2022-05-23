@@ -142,10 +142,10 @@ function App() {
                 ))}
               </S.ClockContainer>
               {showNotificationReminder && <NotificationReminder />}
-              <GithubLink url={'https://github.com/mateuszklusek/MultipleCountdowns'} />
-              <WebsiteInfo />
             </S.AppContainer>
             {showNotificationHelper && <NotificationHelper />}
+            <GithubLink url={'https://github.com/mateuszklusek/MultipleCountdowns'} />
+            <WebsiteInfo />
           </S.MainContainer>
 
         </NotificationContext.Provider>
