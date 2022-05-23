@@ -3,11 +3,12 @@ import { useState, useEffect, useRef, useContext, memo, useLayoutEffect } from '
 
 // packages
 import gsap from 'gsap'
-import { Howl, Howler } from "howler"
+import { Howl } from "howler"
 
 // helpers
 import { transformFromMiliseconds } from '../../helpers/timeManipulation'
 import { LOCAL_STORAGE_PREFIX, DRAGGABLE_THRESHOLD } from '../../helpers/constants'
+import { blockAlarmSound, freeAlarmSoundBlock } from "../../helpers/alarm"
 
 // styles
 import * as S from './Clock.styled'
@@ -37,7 +38,7 @@ const Clock = (props) => {
   const [xCoordinateAtStart, setXCoordinateAtStart] = useState<number>(0)
 
 
-  const playAlert = () => {
+  const playAlert = (id) => {
     var sound;
     return sound = new Howl({
       src: ['./../../assets/clock-sound.mp3'],
@@ -45,9 +46,14 @@ const Clock = (props) => {
         sound.once('unlock', function () {
           sound.play();
         });
+      },
+      onend: () => {
+        freeAlarmSoundBlock()
       }
     });
   }
+
+
 
   // handle dragable clock RIGHT to start and LEFT to pause click
   useEffect(() => {
@@ -119,19 +125,18 @@ const Clock = (props) => {
   const workerRef = useRef(null)
   useEffect(() => {
     function showNotification(msg) {
-      console.log("notification");
       const notification = new Notification('Countdowns', {
         body: msg,
       })
-      var sound = playAlert();
-      if (JSON.parse(window.localStorage.getItem("globalAlarmBlock")) === false) {
-        window.localStorage.setItem("globalAlarmBlock", JSON.stringify(true))
+      var sound = playAlert(props.id);
+      if (JSON.parse(window.localStorage.getItem("alarmBlocked")) === false && window.localStorage.getItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)) {
+        blockAlarmSound()
         sound.play();
       }
       setTimeout(() => {
         notification.close()
         sound.pause()
-        window.localStorage.setItem("globalAlarmBlock", JSON.stringify(false))
+        freeAlarmSoundBlock()
       }, 4000)
       window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)
       // set alarmPlayed for this clock to yes
@@ -167,28 +172,34 @@ const Clock = (props) => {
       setTimerData(prev => temp)
 
 
-      if (e.data.time <= 1) {
+      if (e.data.time < 1) {
         // change for the notification only for the countdown when the websites was active, not from localStore
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-          window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)
-          var sound = playAlert();
-          sound.play();
-          setTimeout(() => {
-            sound.pause()
-            window.localStorage.setItem("globalAlarmBlock", JSON.stringify(false))
-          }, 4000)
-        }
-        else {
-          if (Notification.permission === 'granted' && window.localStorage.getItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)) {
-            showNotification(props.msg)
+        try {
+          if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            var sound = playAlert(props.id);
+            blockAlarmSound()
+            sound.play();
+            window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)
           }
           else {
-            window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)
-            var sound = playAlert();
-            sound.play();
+            if (Notification.permission === 'granted' && window.localStorage.getItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)) {
+              showNotification(props.msg)
+            }
+            else {
+              if (JSON.parse(window.localStorage.getItem("alarmBlocked")) === false && window.localStorage.getItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)) {
+                window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)
+                blockAlarmSound()
+                var sound = playAlert(props.id);
+                sound.play()
+              } else {
+                window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)
+              }
+            }
           }
+        } catch (err) {
+          window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)
+          workerRef.current.terminate()
         }
-        workerRef.current.terminate()
       }
     }
 

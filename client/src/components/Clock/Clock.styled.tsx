@@ -6,7 +6,16 @@ export const SingleClockContainer = styled.div`
   height: auto;
   padding: 5px;
   border-bottom: 2px solid ${props => props.showNotificationHelper ? "#4b474754" : "#dadce0"};
-  background: ${(props) => props.done && '#c0a5ce'};
+  background: ${(props) => {
+    if (props.done) {
+      if (props.showNotificationHelper) {
+        return "#4b474754"
+      }
+      else {
+        return '#c0a5ce'
+      }
+    }
+  }};
   opacity: ${props => props.playing ? "1" : "0.5"};
   padding-top: 20px;
   padding-bottom: 20px;

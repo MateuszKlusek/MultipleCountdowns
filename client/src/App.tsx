@@ -18,9 +18,11 @@ import { NotificationContext } from './context/NotificationContext'
 
 // helpers
 import { generateString } from './helpers/stringGenerator'
+import { blockAlarmSound, freeAlarmSoundBlock } from "./helpers/alarm"
 
 // styles
 import * as S from './App.styled'
+import OfflineInformation from './components/OfflineInformation/OfflineInformation'
 
 function App() {
   // states
@@ -78,8 +80,8 @@ function App() {
 
   // save global alarm blocking to localStorage when first mounting the page 
   useEffect(() => {
-    if (!window.localStorage.getItem("globalAlarmBlock") || JSON.parse(window.localStorage.getItem("globalAlarmBlock")) === true) {
-      window.localStorage.setItem("globalAlarmBlock", JSON.stringify(false))
+    if (!window.localStorage.getItem("alarmBlocked") || JSON.parse(window.localStorage.getItem("globalAlarmBlock")) === true) {
+      window.localStorage.setItem("alarmBlocked", JSON.stringify(false))
     }
   }, [])
 
@@ -119,6 +121,10 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    showNotificationHelper ? blockAlarmSound() : freeAlarmSoundBlock()
+  }, [showNotificationHelper])
+
 
   return (
     <PopupContext.Provider value={{ showOfflineInformation, setShowOfflineInformation }}>
@@ -142,6 +148,7 @@ function App() {
                 ))}
               </S.ClockContainer>
               {showNotificationReminder && <NotificationReminder />}
+              {showOfflineInformation[0] && <OfflineInformation time={showOfflineInformation[1]} />}
             </S.AppContainer>
             {showNotificationHelper && <NotificationHelper />}
             <GithubLink url={'https://github.com/mateuszklusek/MultipleCountdowns'} />
