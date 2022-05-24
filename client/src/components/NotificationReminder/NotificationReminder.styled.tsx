@@ -2,6 +2,8 @@ import styled from "styled-components"
 
 
 export const NotificationReminderContainer = styled.div`
+   user-select: none;
+   cursor: pointer;
    width: 45px;
    height: 45px;
    position: absolute; 

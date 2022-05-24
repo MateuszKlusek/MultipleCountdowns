@@ -37,7 +37,6 @@ const Clock = (props) => {
   const [clicked, setClicked] = useState<boolean>(false)
   const [xCoordinateAtStart, setXCoordinateAtStart] = useState<number>(0)
 
-
   const playAlert = (id) => {
     var sound;
     return sound = new Howl({
@@ -52,8 +51,6 @@ const Clock = (props) => {
       }
     });
   }
-
-
 
   // handle dragable clock RIGHT to start and LEFT to pause click
   useEffect(() => {
@@ -175,11 +172,12 @@ const Clock = (props) => {
       if (e.data.time < 1) {
         // change for the notification only for the countdown when the websites was active, not from localStore
         try {
-          if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+          if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && window.localStorage.getItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)) {
+            console.log("inside mobile");
+            window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)
             var sound = playAlert(props.id);
             blockAlarmSound()
             sound.play();
-            window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)
           }
           else {
             if (Notification.permission === 'granted' && window.localStorage.getItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)) {
