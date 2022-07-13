@@ -12,7 +12,7 @@ import * as S from "./OfflineInformation.styled"
 import { PopupContext } from "../../context/PopupContext";
 
 const OfflineInformation = (props) => {
-    const { showOfflineInformation, setShowOfflineInformation } = useContext(PopupContext)
+    const { setShowOfflineInformation } = useContext(PopupContext)
 
     const OfflineInformationContainerRef = useRef<HTMLDivElement>(null)
     useEffect(() => {
@@ -22,7 +22,6 @@ const OfflineInformation = (props) => {
             }
         })
         tl.to(OfflineInformationContainerRef.current, { bottom: "30px" }).to(OfflineInformationContainerRef.current, { bottom: "-80px" }, "+=2")
-
 
     }, [])
 

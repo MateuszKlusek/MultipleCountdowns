@@ -17,7 +17,7 @@ export const AppContainer = styled.div`
 
 export const ClockContainer = styled.div`
   width: 100%;
-  margin-top: 80px;
+  margin-top: 120px;
   margin-bottom: 40px;
   display: flex;
   flex-direction: column;

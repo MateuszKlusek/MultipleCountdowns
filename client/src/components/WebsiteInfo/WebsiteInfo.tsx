@@ -1,4 +1,4 @@
-
+// styles
 import * as S from './WebsiteInfo.styled'
 
 const WebsiteInfo = () => {

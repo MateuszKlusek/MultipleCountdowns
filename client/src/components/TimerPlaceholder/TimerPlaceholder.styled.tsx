@@ -1,6 +1,5 @@
 import styled from "styled-components"
 
-
 export const TimerPlaceholderContainer = styled.div`
     width: 650px;    
     max-width: 80%;

@@ -1,7 +1,7 @@
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 // component
-import NotificationHelper from "./NotificationHelper"
+import NotificationHelper from './NotificationHelper'
 
-test.todo('add tests');
+test.todo('add tests')

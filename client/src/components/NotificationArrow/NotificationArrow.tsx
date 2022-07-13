@@ -13,7 +13,6 @@ import ArrowUp from "./../../assets/arrow-up.png"
 // context
 import { NotificationContext } from "../../context/NotificationContext";
 
-
 const NotificationArrow = () => {
     // states
     const { setShowNotificationArrow } = useContext(NotificationContext)

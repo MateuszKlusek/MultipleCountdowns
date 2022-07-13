@@ -1,3 +1,4 @@
-import { createContext, Dispatch, SetStateAction } from 'react'
+//react
+import { createContext } from 'react'
 
 export const TimersContext = createContext(null)

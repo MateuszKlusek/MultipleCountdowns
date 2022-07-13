@@ -10,7 +10,6 @@ import gsap from "gsap"
 // styles
 import * as S from './NotificationHelper.styled'
 
-
 const NotificationHelper = () => {
   // states
   const { setShowNotificationHelper } = useContext(NotificationContext)

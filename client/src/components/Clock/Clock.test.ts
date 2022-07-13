@@ -1,7 +1,7 @@
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 // component
-import Clock from "./Clock"
+import Clock from './Clock'
 
-test.todo('add tests');
+test.todo('add tests')

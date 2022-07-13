@@ -11,6 +11,9 @@ export const TimePickerContainer = styled.div`
   @media (max-width: 768px) {
     height: 100px;
   }
+  @media (max-width: 432px) {
+    height: 120px;
+  }
 `
 
 export const TimerContainer = styled.div`

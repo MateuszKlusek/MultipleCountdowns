@@ -1,7 +1,7 @@
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 // component
-import OfflineInformation from "./OfflineInformation"
+import OfflineInformation from './OfflineInformation'
 
-test.todo('add tests');
+test.todo('add tests')

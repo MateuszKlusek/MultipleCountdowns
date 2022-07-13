@@ -10,6 +10,7 @@ import Top from './components/Top/Top'
 import TimerPlaceholder from './components/TimerPlaceholder/TimerPlaceholder'
 import NotificationReminder from './components/NotificationReminder/NotificationReminder'
 import NotificationHelper from './components/NotificationHelper/NotificationHelper'
+import OfflineInformation from './components/OfflineInformation/OfflineInformation'
 
 // context
 import { TimersContext } from './context/TimersContext';
@@ -22,7 +23,6 @@ import { blockAlarmSound, freeAlarmSoundBlock } from "./helpers/alarm"
 
 // styles
 import * as S from './App.styled'
-import OfflineInformation from './components/OfflineInformation/OfflineInformation'
 
 function App() {
   // states
@@ -40,6 +40,8 @@ function App() {
   useEffect(() => {
     handleLocalStorage()
   }, [])
+
+  // handling local storage
   const handleLocalStorage = () => {
     const prefix = '^countdown_'
     let re = new RegExp(prefix, 'g')
@@ -50,7 +52,6 @@ function App() {
     if (timeLapse > 1000) {
       setShowOfflineInformation(prev => [true, timeLapse])
     }
-    console.log(timeLapse);
 
     for (const [key, value] of Object.entries(localStorage)) {
       if (key.match(re)) {
@@ -106,7 +107,6 @@ function App() {
 
   // notification api -> is not granted show notification icon (<NotificationReminder />)
   useEffect(() => {
-    console.log(navigator.userAgent)
     try {
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
       }

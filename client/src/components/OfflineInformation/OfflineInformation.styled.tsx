@@ -1,6 +1,5 @@
 import styled from "styled-components"
 
-
 export const OfflineInformationContainer = styled.div`
     user-select: none;
     max-width: 200px;

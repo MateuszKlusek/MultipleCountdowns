@@ -1,27 +1,33 @@
+// react
 import { useContext, useState, useEffect, useRef } from 'react'
+
+// hooks
 import { useDetectClickOutside } from 'react-detect-click-outside'
 
+// styles
 import * as S from './TimePicker.styled'
+
+// helpers
 import { retransformString } from '../../helpers/timeManipulation'
 import { colorRandomizer } from '../../helpers/colorRandomizer'
 import { generateString } from '../../helpers/stringGenerator'
 import { MAX_CLOCKS, LOCAL_STORAGE_PREFIX } from '../../helpers/constants'
+
+// components
 import Warning from '../Warning/Warning'
 
 // context
 import { TimersContext } from '../../context/TimersContext'
 import { NotificationContext } from '../../context/NotificationContext'
 
-// helpers
-import { mergeRefs } from "./../../helpers/refs.js"
-
 const TimePicker = () => {
   // states
-  const { timers, setTimers } = useContext(TimersContext)
-  const { showNotificationHelper, setShowNotificationHelper } = useContext(NotificationContext)
   const [warning, setWarning] = useState([false, ''])
   const [isTimerEditable, setIsTimerEditable] = useState(false)
 
+  // states from context
+  const { timers, setTimers } = useContext(TimersContext)
+  const { showNotificationHelper } = useContext(NotificationContext)
 
   // refs
   const WarningRef = useRef(false)
@@ -43,13 +49,11 @@ const TimePicker = () => {
   }, [warning])
 
 
-
   // isPre is a state for allowing a gray 5:00 to appear before you click sth
   const [isPre, setIsPre] = useState<boolean>(true)
   const [timer, setTimer] = useState<string>('500')
   const [title, setTitle] = useState<string>('')
 
-  const TimePlaceholderActiveRef = useRef<HTMLDivElement>(null)
   const NameInputRef = useRef<HTMLInputElement>(null)
   const StartButtonRef = useRef<HTMLDivElement>(null)
   const ResetButtonRef = useRef<HTMLDivElement>(null)
@@ -102,8 +106,6 @@ const TimePicker = () => {
       setIsPre((prev) => true)
     }
   }
-
-
 
   const handleReset = () => {
     NameInputRef.current.value = ''
@@ -193,7 +195,6 @@ const TimePicker = () => {
     if (tim.length > idx - 1) return tim[tim.length - idx]
   }
 
-  ////////////////////////////////////////////////////////////////////// 
   useEffect(() => {
     if (isTimerEditable) {
       FakeInputRef.current.focus()

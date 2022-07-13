@@ -1,3 +1,4 @@
+// styles
 import * as S from './Warning.styled'
 
 const Warning = (props) => {

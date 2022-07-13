@@ -81,7 +81,6 @@ export const Message = styled.div`
    margin-top: 10px;
    font-size: 13px;
   }
-
 `
 
 export const IconContainer = styled.div`
@@ -115,8 +114,9 @@ export const ActionButton = styled.img`
 
   
   @media (max-width: 650px) {
-    width: 12px;
-  height: 12px;
+    width: 18px;
+    height: 18px;
+    margin-right:12px;
   } 
 
   @media (max-width: 300px) {

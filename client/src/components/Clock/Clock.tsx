@@ -30,13 +30,16 @@ const Clock = (props) => {
   const [timerData, setTimerData] = useState<Timer>(props.data)
   const [isPlaying, setIsPlaying] = useState<boolean>(timerData.playing)
   const [reset, setReset] = useState<boolean>(false);
-  const { timers, setTimers } = useContext(TimersContext)
-  const { showNotificationHelper } = useContext(NotificationContext)
 
   // state for clicking and dragging single clock
   const [clicked, setClicked] = useState<boolean>(false)
   const [xCoordinateAtStart, setXCoordinateAtStart] = useState<number>(0)
 
+  // states from context
+  const { timers, setTimers } = useContext(TimersContext)
+  const { showNotificationHelper } = useContext(NotificationContext)
+
+  // handling playing music
   const playAlert = (id) => {
     var sound;
     return sound = new Howl({
@@ -54,7 +57,6 @@ const Clock = (props) => {
 
   // handle dragable clock RIGHT to start and LEFT to pause click
   useEffect(() => {
-
     function handleMouseClick(e) {
       var startPoint;
       if (e.type === "mousedown") {
@@ -168,12 +170,10 @@ const Clock = (props) => {
       temp = JSON.parse(JSON.stringify(temp))
       setTimerData(prev => temp)
 
-
       if (e.data.time < 1) {
         // change for the notification only for the countdown when the websites was active, not from localStore
         try {
           if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && window.localStorage.getItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)) {
-            console.log("inside mobile");
             window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${props.id}`)
             var sound = playAlert(props.id);
             blockAlarmSound()
@@ -203,14 +203,11 @@ const Clock = (props) => {
 
     workerRef.current.addEventListener('message', handleOnMessage)
 
-
     return () => {
       workerRef.current.removeEventListener('message', handleOnMessage)
       workerRef.current.terminate()
-
     }
   }, [reset, isPlaying])
-
 
   // handle making field "blinking" when timeLeft  <= 0
   const SingleClockContainerRef = useRef<HTMLDivElement>(null)
@@ -223,6 +220,8 @@ const Clock = (props) => {
       PauseIndicatorRef.current.style.transform = "translateX(20px)"
     }
   }, [])
+
+  // handling "animation" for toogling start/stop 
   useEffect(() => {
     const tl = gsap.timeline({})
     if (isPlaying) {
@@ -234,6 +233,7 @@ const Clock = (props) => {
     }
   }, [isPlaying])
 
+  // handlind delete siingle timer
   const handleDelete = (id) => {
     // deleting localStorage for this element and removing state
     window.localStorage.removeItem(`${LOCAL_STORAGE_PREFIX}${id}`)
@@ -243,6 +243,7 @@ const Clock = (props) => {
     setTimers((prev) => temp)
   }
 
+  // handling reset timer
   const handleReset = (id) => {
     // timeLeft = timeTotal
     var timerDataReset = timerData
@@ -255,8 +256,8 @@ const Clock = (props) => {
     setReset(prev => !prev)
   }
 
+  // handling toggling start/stop
   const toggleStartStop = (id, playing) => {
-
     var timerDataToSave: Timer = timerData
     window.localStorage.setItem(
       `${LOCAL_STORAGE_PREFIX}${id}`,
